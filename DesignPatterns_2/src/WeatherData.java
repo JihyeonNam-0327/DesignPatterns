@@ -29,11 +29,23 @@ public class WeatherData implements Subject{
 
 	@Override
 	public void notifyObservers() {
-		// TODO Auto-generated method stub
+		// 상태에 대해 모든 옵저버에게 알려주는 부분. 모두 Observer Interface를 구현하는,
+		// 즉, update() 메소드가 있는 객체들이므로 손 쉽게 알려줄 수 있습니다.
 		for(int i = 0; i < observers.size(); i++) {
 			Observer observer = (Observer)observers.get(i);
 			observer.update(temperature, humidity, pressure);
 		}
 	}
-
+	
+	public void measurementsChanged() {
+		// 기상 스테이션으로부터 갱신된 측정치를 받으면 옵저버들한테 알립니다.
+		notifyObservers();
+	}
+	
+	public void setMeasurements(float temperature, float humidity, float pressure) {
+		this.temperature = temperature;
+		this.humidity = humidity;
+		this.pressure = pressure;
+		measurementsChanged();
+	}
 }
